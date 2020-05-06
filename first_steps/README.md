@@ -31,8 +31,11 @@ go build [file name]. e.g. go build hello_world.go
 https://golang.org/
 
 ## Files
-### hello_world.go
+### Hello World
 A simple Hello World print in console but after 2 seconds.
 
 ### Types and variables
-Show the use of variables, constants and data type.
+Show the use of variables, constants, data type and structs.
+
+### Functions
+Show with a calc how to use functions, if statement and closures.
