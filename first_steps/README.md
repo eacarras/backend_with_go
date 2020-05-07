@@ -47,7 +47,7 @@ Show how to create arrays, slices, index arrays and create a matrix.
 This folder have two parts: 
 
 - The first is to explain how to use `os` and `strconv` packages with a simple example also using if statements and handle in simple way the error of a cast.
-- The second is to explain the for loops in index and for each way.
+- The second is to explain the for loops using indexes and for loops like for eachs.
 
 ### Files
 Example of read and write into files.
