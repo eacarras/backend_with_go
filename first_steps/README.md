@@ -42,3 +42,8 @@ Show with a calc how to use functions, if statement and closures.
 
 ### Arrays
 Show how to create arrays, slices, index arrays and create a matrix.
+
+### Control Structures
+This folder have two parts: 
+
+- The first is to explain how to use `os` and `strconv` packages with a simple example also using if statements and handle in simple way the error of a cast.
