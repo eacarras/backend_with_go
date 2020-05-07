@@ -39,3 +39,6 @@ Show the use of variables, constants, data type and structs.
 
 ### Functions
 Show with a calc how to use functions, if statement and closures.
+
+### Arrays
+Show how to create arrays, slices, index arrays and create a matrix.
