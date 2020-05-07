@@ -38,7 +38,7 @@ A simple Hello World print in console but after 2 seconds.
 Show the use of variables, constants, data type and structs.
 
 ### Functions
-Show with a calc how to use functions, if statement and closures.
+Show with a calc how to use functions, switch statement and closures.
 
 ### Arrays
 Show how to create arrays, slices, index arrays and create a matrix.
@@ -47,3 +47,7 @@ Show how to create arrays, slices, index arrays and create a matrix.
 This folder have two parts: 
 
 - The first is to explain how to use `os` and `strconv` packages with a simple example also using if statements and handle in simple way the error of a cast.
+- The second is to explain the for loops in index and for each way.
+
+### Files
+Example of read and write into files.
