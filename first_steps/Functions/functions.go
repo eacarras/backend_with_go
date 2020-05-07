@@ -38,14 +38,17 @@ func operations(first_value float32, second_value float32) {
 		This func can be improve with a switch statement
 	*/
 	calc := func(fvalue float32, svalue float32, operator byte) float32{
-		if (operator == '+') {
-			return fvalue + svalue;
-		} else if (operator == '-') {
-			return fvalue - svalue;
-		} else if (operator == '*') {
-			return fvalue * svalue;
-		} else {
-			return fvalue / svalue;
+		switch operator {
+			case '+':
+				return fvalue + svalue;
+			case '-':
+				return fvalue - svalue;
+			case '*':
+				return fvalue * svalue;
+			case '/':
+				return fvalue / svalue;
+			default:
+				return fvalue;
 		}
 	}
 
