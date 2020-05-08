@@ -17,7 +17,7 @@ You will se the API REST created with Go this is a simple CRUD of a persons syst
 
 To run the server you need to run the followin command into the `api_rest` folder:
 ```
-go run main.go
+go run *.go
 ```
 
 This server will be run in the port `2020`.
