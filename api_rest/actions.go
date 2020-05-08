@@ -42,7 +42,7 @@ func PersonDetails(resp http.ResponseWriter, req *http.Request) {
 	}
 
 	for _, p := range persons {
-		if p.id == person_id {
+		if p.Id == person_id {
 			json.NewEncoder(resp).Encode(p);
 		}
 	}
