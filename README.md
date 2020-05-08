@@ -10,7 +10,7 @@ If you want to learn more about Go before read all this backend you can go to th
 NOTE: This backend was made with go 1.14.2
 
 ## Backend
-You will se the API REST created with Go in the folder
+You will se the API REST created with Go this is a simple CRUD of a persons system, you will see in the folder:
 ```
 ./api_rest
 ```
@@ -33,7 +33,17 @@ The documentation of the package is here
 https://github.com/gorilla/mux
 ```
 
-To know if the server is up you will use the route
+To know if the server is up you will use the route:
 ```
 /health
+```
+
+To get all the persons saved in the collection you can use the route:
+```
+/persons
+```
+
+To get the details of one person you can use the route:
+```
+/persons/{id}
 ```
