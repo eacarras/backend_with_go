@@ -1,11 +1,11 @@
 package main
 
 type person struct {
-	Id string `json:"identifier"`
-	name string 
-	Last_name string `json:"lastName"`
-	age int
-	Civil_state byte `json:"civilState"`
+	Id string
+	Name string 
+	Last_name string
+	Age int
+	Civil_state int
 };
 
 type bad_request struct {

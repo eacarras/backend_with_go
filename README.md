@@ -38,6 +38,8 @@ go get gopkg.in/mgo.v2/bson
 ```
 This last package help to work with the binaries documents of mongo
 
+PSDTA: In mongodb you need the db `go_test_db` and the collection `persons`.
+
 ### Routes
 I used Gorilla Mux to make the routes of the API. You need to install and you can do it using run the following command
 ```

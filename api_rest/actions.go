@@ -26,6 +26,8 @@ func get_session() *mgo.Session {
 	return session
 }
 
+var collection = get_session().DB("go_test_db").C("persons")
+
 func Health(resp http.ResponseWriter, req *http.Request) {
 	get_session() // Analyze if the connection is success
 	fmt.Fprintf(resp, "Server is up and running...");
@@ -36,7 +38,7 @@ func PersonsList(resp http.ResponseWriter, req *http.Request) {
 
 	var response []string;
 	for i:= 0; i < len(persons_array); i ++ {
-		response = append(response, persons_array[i].name);
+		response = append(response, persons_array[i].Name);
 	}
 	json.NewEncoder(resp).Encode(response);
 }
@@ -65,10 +67,19 @@ func PersonAdd(resp http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+	defer req.Body.Close(); // Close the body read
 
-	fmt.Printf("Adding a new person in the collection..");
-	defer req.Body.Close();
+	fmt.Printf("Adding a new person in the collection..\n");
+	
+	err_insertion := collection.Insert(person_data)
+	if err_insertion != nil {
+		resp.WriteHeader(500)
+		return	
+	}
 
-	fmt.Println(person_data)
-	persons_array = append(persons_array, person_data);
+	fmt.Printf("Person added successfully..\n")
+	
+	resp.Header().Set("Content-Type", "application/json")
+	resp.WriteHeader(200)
+	json.NewEncoder(resp).Encode(person_data)
 }
