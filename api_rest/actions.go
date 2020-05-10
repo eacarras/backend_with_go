@@ -5,16 +5,10 @@ import (
 	"net/http"
 	"github.com/gorilla/mux"
 	"encoding/json"
+	"log"
 	"gopkg.in/mgo.v2"
 	//"gopkg.in/mgo.v2/bson"
 )
-
-// Dummy data
-var persons_array = persons {
-	person{"1a", "Aaron", "Carrasco", 22, 'S'},
-	person{"2a", "Moises", "Carrasco", 28, 'C'},
-	person{"1c", "Joel", "Castro", 32, 'V'},
-}
 
 func get_session() *mgo.Session {
 	session, err := mgo.Dial("mongodb://localhost");
@@ -22,7 +16,6 @@ func get_session() *mgo.Session {
 	if err != nil {
 		panic(err)
 	}
-
 	return session
 }
 
@@ -36,11 +29,19 @@ func Health(resp http.ResponseWriter, req *http.Request) {
 func PersonsList(resp http.ResponseWriter, req *http.Request) {
 	fmt.Println("Getting list of persons...");
 
-	var response []string;
-	for i:= 0; i < len(persons_array); i ++ {
-		response = append(response, persons_array[i].Name);
+	var results []person
+	err := collection.Find(nil).Sort("_id").All(&results)
+	
+	if err != nil {
+		resp.WriteHeader(500)
+		log.Fatal(err)
+		
+		return
 	}
-	json.NewEncoder(resp).Encode(response);
+
+	resp.Header().Set("Content-Type", "application/json")
+	resp.WriteHeader(200)
+	json.NewEncoder(resp).Encode(results);
 }
 
 func PersonDetails(resp http.ResponseWriter, req *http.Request) {
@@ -48,14 +49,6 @@ func PersonDetails(resp http.ResponseWriter, req *http.Request) {
 	person_id := parms["id"];
 
 	fmt.Printf("Getting the information of a person with id: %s...", person_id);
-
-	for _, p := range persons_array {
-		if p.Id == person_id {
-			json.NewEncoder(resp).Encode(p);
-		}
-	}
-
-	json.NewEncoder(resp).Encode(bad_request{"Not person found..", 400});
 }
 
 func PersonAdd(resp http.ResponseWriter, req *http.Request) {
