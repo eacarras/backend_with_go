@@ -22,6 +22,22 @@ go run *.go
 
 This server will be run in the port `2020`.
 
+### Connection with GO
+We will use the driver of `mgo`, the official documentation is:
+
+http://niemeyer.net/mgo
+
+To install the package you can install with the command:
+```
+go get gopkg.in/mgo.v2
+```
+
+Also you need the package:
+```
+go get gopkg.in/mgo.v2/bson
+```
+This last package help to work with the binaries documents of mongo
+
 ### Routes
 I used Gorilla Mux to make the routes of the API. You need to install and you can do it using run the following command
 ```
@@ -46,4 +62,20 @@ To get all the persons saved in the collection you can use the route:
 To get the details of one person you can use the route:
 ```
 /persons/{id}
+```
+
+To save a new person to the collection you can use the POST method:
+```
+/person
+```
+
+POST Body:
+```
+{
+    Id: ""
+	name: ""
+	Last_name: ""
+	age: 0
+	Civil_state: ''
+}
 ```

@@ -46,4 +46,10 @@ var routes = Routes{
 		"/person/{id}",
 		PersonDetails,
 	},
+	Route{
+		"Add a person",
+		"POST",
+		"/person",
+		PersonAdd,
+	},
 }
