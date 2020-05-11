@@ -19,6 +19,18 @@ func get_session() *mgo.Session {
 	return session
 }
 
+func response(resp http.ResponseWriter, status int, result person) {
+	resp.Header().Set("Content-Type", "application/json")
+	resp.WriteHeader(status)
+	json.NewEncoder(resp).Encode(result);
+}
+
+func response_array(resp http.ResponseWriter, status int, result []person) {
+	resp.Header().Set("Content-Type", "application/json")
+	resp.WriteHeader(status)
+	json.NewEncoder(resp).Encode(result);
+}
+
 var collection = get_session().DB("go_test_db").C("persons")
 
 func Health(resp http.ResponseWriter, req *http.Request) {
@@ -39,9 +51,7 @@ func PersonsList(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	resp.Header().Set("Content-Type", "application/json")
-	resp.WriteHeader(200)
-	json.NewEncoder(resp).Encode(results);
+	response_array(resp, 200, results)
 }
 
 func PersonDetails(resp http.ResponseWriter, req *http.Request) {
@@ -66,9 +76,44 @@ func PersonDetails(resp http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	resp.Header().Set("Content-Type", "application/json")
-	resp.WriteHeader(200)
-	json.NewEncoder(resp).Encode(result)
+	response(resp, 200, result)
+}
+
+func PersonUpdate(resp http.ResponseWriter, req *http.Request) {
+	parms := mux.Vars(req);
+	person_id := parms["id"];
+
+	fmt.Printf("Getting the information of a person with id: %s...\n", person_id);
+
+	if !bson.IsObjectIdHex(person_id) {
+		resp.WriteHeader(404)
+		return
+	}
+
+	decoded_id := bson.ObjectIdHex(person_id)
+	decoder := json.NewDecoder(req.Body)
+	
+	var person_data person
+	err_decoder := decoder.Decode(&person_data)
+
+	if err_decoder != nil {
+		panic(err_decoder)
+		resp.WriteHeader(500)
+		return
+	}
+	defer req.Body.Close()
+
+	document := bson.M{"_id": decoded_id}
+	change := bson.M{"$set": person_data}
+	err := collection.Update(document, change)
+
+	if err != nil {
+		panic(err)
+		resp.WriteHeader(404)
+		return
+	}
+
+	response(resp, 200, person_data)
 }
 
 func PersonAdd(resp http.ResponseWriter, req *http.Request) {
@@ -90,9 +135,6 @@ func PersonAdd(resp http.ResponseWriter, req *http.Request) {
 		return	
 	}
 
-	fmt.Printf("Person added successfully..\n")
-	
-	resp.Header().Set("Content-Type", "application/json")
-	resp.WriteHeader(200)
-	json.NewEncoder(resp).Encode(person_data)
+	fmt.Printf("Person added successfully..\n")	
+	response(resp, 200, person_data)
 }

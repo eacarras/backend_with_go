@@ -52,4 +52,10 @@ var routes = Routes{
 		"/person",
 		PersonAdd,
 	},
+	Route{
+		"Update a person",
+		"PUT",
+		"/person/{id}",
+		PersonUpdate,
+	},
 }
