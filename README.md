@@ -61,12 +61,12 @@ To get all the persons saved in the collection you can use the route:
 /persons
 ```
 
-To get the details of one person you can use the route:
+To get the details of one person you can use the route (using GET method):
 ```
 /persons/{id}
 ```
 
-To save a new person to the collection you can use the POST method:
+To save a new person to the collection you can use the POST route:
 ```
 /person
 ```
@@ -74,10 +74,31 @@ To save a new person to the collection you can use the POST method:
 POST Body:
 ```
 {
-    Id: ""
-	name: ""
-	Last_name: ""
-	age: 0
-	Civil_state: ''
+	"id": "4e",
+	"name": "Aaron",
+	"last_name": "Moran",
+	"age": 23,
+	"civil_state": 1
 }
+```
+
+To update the information of a person you can use the PUT route:
+```
+/person/{id}
+```
+
+Body:
+```
+{
+	"id": "4e",
+	"name": "Aaron",
+	"last_name": "Moran",
+	"age": 23,
+	"civil_state": 1
+}
+```
+
+To remove the information of a person you can use the DELELTE route:
+```
+/person/{id}
 ```

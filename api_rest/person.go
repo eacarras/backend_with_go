@@ -8,9 +8,9 @@ type person struct {
 	Civil_state int `json:"civil_state"`
 };
 
-type bad_request struct {
-	message string
-	status int
+type message struct {
+	Message string `json:"message"`
+	Status int `json:"status"`
 }
 
 type persons []person;

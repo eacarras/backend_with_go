@@ -31,6 +31,12 @@ func response_array(resp http.ResponseWriter, status int, result []person) {
 	json.NewEncoder(resp).Encode(result);
 }
 
+func response_remove(resp http.ResponseWriter, status int, result message) {
+	resp.Header().Set("Content-Type", "application/json")
+	resp.WriteHeader(status)
+	json.NewEncoder(resp).Encode(result);
+}
+
 var collection = get_session().DB("go_test_db").C("persons")
 
 func Health(resp http.ResponseWriter, req *http.Request) {
@@ -79,6 +85,30 @@ func PersonDetails(resp http.ResponseWriter, req *http.Request) {
 	response(resp, 200, result)
 }
 
+func PersonRemove(resp http.ResponseWriter, req *http.Request) {
+	parms := mux.Vars(req);
+	person_id := parms["id"];
+
+	fmt.Printf("Getting the information of a person with id: %s...\n", person_id);
+
+	if !bson.IsObjectIdHex(person_id) {
+		resp.WriteHeader(404)
+		return
+	}
+
+	decoded_id := bson.ObjectIdHex(person_id)
+	err := collection.RemoveId(decoded_id)
+
+	if err != nil {
+		log.Fatal(err)
+		resp.WriteHeader(404)
+		return
+	}
+
+	result := message{"Remove of person success..", 200}
+	response_remove(resp, 200, result)
+}
+
 func PersonUpdate(resp http.ResponseWriter, req *http.Request) {
 	parms := mux.Vars(req);
 	person_id := parms["id"];
@@ -97,9 +127,8 @@ func PersonUpdate(resp http.ResponseWriter, req *http.Request) {
 	err_decoder := decoder.Decode(&person_data)
 
 	if err_decoder != nil {
-		panic(err_decoder)
 		resp.WriteHeader(500)
-		return
+		panic(err_decoder)
 	}
 	defer req.Body.Close()
 
@@ -108,9 +137,8 @@ func PersonUpdate(resp http.ResponseWriter, req *http.Request) {
 	err := collection.Update(document, change)
 
 	if err != nil {
-		panic(err)
 		resp.WriteHeader(404)
-		return
+		panic(err)
 	}
 
 	response(resp, 200, person_data)
