@@ -13,4 +13,12 @@ type message struct {
 	Status int `json:"status"`
 }
 
+func (this *message) set_status(status int) {
+	this.Status = status
+}
+
+func (this *message) set_message(message string) {
+	this.Message = message
+}
+
 type persons []person;
